@@ -1,0 +1,30 @@
+.search-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+label {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+input {
+    width: 50%;
+    background-color: #124969;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 10px;
+    height: 30px;
+    margin-top: 10px;
+}
+
+input::placeholder {
+    color: black;
+    justify-items: center;
+}
