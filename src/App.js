@@ -11,7 +11,7 @@ function App() {
 const [pokemonData, setPokemonData] = useState({nombre: '', detipo: '', imagen: '', identificador: 1});
 
 useEffect(() => {
-  getPokemon(pokemonData.identificador);
+getPokemon(pokemonData.identificador);
 }, [])
 
 async function getPokemon (name) {
@@ -19,18 +19,17 @@ async function getPokemon (name) {
   const data = await response.json()
   setPokemonData({
     nombre: data.name, 
-    detipo: data.types[0].type.name, 
+    detipo: data.types.map(type => type.type.name),
     imagen: data.sprites.other["official-artwork"].front_default, 
     identificador: data.id})
 };
-
 // creamos la logica para los botones de prev y next
 
-function obtenerPokemonSiguiente() {
-  getPokemon(pokemonData.identificador + 1);
-}
-function obtenerPokemonAnterior() {
+function obtenerPokemonAnterior () {
   getPokemon(pokemonData.identificador - 1)
+}
+function obtenerPokemonSiguiente () {
+  getPokemon(pokemonData.identificador + 1)
 }
 
 
@@ -49,18 +48,20 @@ const pokemonApp = []
       <div className='contenedor-principal'> 
         
 
-        <Pokemon nombre= {pokemonData.nombre} identificador={pokemonData.identificador} imagen={pokemonData.imagen} tipo={pokemonData.detipo} />
+        <Pokemon nombre= {pokemonData.nombre} identificador={pokemonData.identificador} imagen={pokemonData.imagen} tipo={pokemonData.detipo} detipo={pokemonData.detipo} />
         
         <div className="contenedor-botones">
           <Boton 
             texto="Prev"
             BotonDeSiguiente={false}
-            siguientePokemon={obtenerPokemonAnterior} />
+            siguientePokemon={obtenerPokemonAnterior} 
+            />
 
           <Boton 
             texto="Next"
             BotonDeSiguiente={true}
-            siguientePokemon={obtenerPokemonSiguiente} />
+            siguientePokemon={obtenerPokemonSiguiente} 
+            />
         </div>
       </div> 
     </div>

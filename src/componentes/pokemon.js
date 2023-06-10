@@ -2,8 +2,9 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../hojas-de-estilo/pokemon.css';
 
-function Pokemon({ nombre, imagen, tipo, identificador }) {
 
+function Pokemon({ nombre, imagen, tipo, identificador, detipo }) {
+  
   return (
     <div className="card-container">
       <div className="card">
@@ -16,13 +17,24 @@ function Pokemon({ nombre, imagen, tipo, identificador }) {
         </div>
       </div>
       <div className=''>
-        <ul className="tipos-container list-group list-group-horizontal">
-          
-          <li className={`list-group-item ${tipo}`}><span className='tipo'>{tipo}</span></li>
+        {console.log(detipo)}
+        {detipo.length === 2 ? (
+          <ul className="tipos-container list-group list-group-horizontal">
+            <li className={`list-group-item ${tipo[0]}`}><span className='tipo'>{tipo[0]}</span></li>
+            <li className={`list-group-item ${tipo[1]}`}><span className='tipo'>{tipo[1]}</span></li>
+          </ul>
+        ) : (
+          <ul className="tipos-container list-group list-group-horizontal">
+            <li className={`list-group-item ${tipo}`}><span className='tipo'>{tipo}</span></li>
+          </ul>
+        )}
+
+        {/* <ul className="tipos-container list-group list-group-horizontal">
+
           <li className={`list-group-item ${tipo}`}><span className='tipo'>{tipo}</span></li>
           <li className={`list-group-item ${tipo}`}><span className='tipo'>{tipo}</span></li>
         
-      </ul>
+        </ul> */}
       </div>
     </div>
   )
