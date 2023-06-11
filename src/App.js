@@ -4,12 +4,11 @@ import Buscador from './componentes/buscador'
 import Boton from './componentes/Boton'
 import PokemonLogo from './imagenes/pokemon-logo.png';
 import React, {useState, useEffect} from 'react';
-import Evoluciones from './componentes/evoluciones';
 
 
 function App() {
   
-const [pokemonData, setPokemonData] = useState({nombre: '', detipo: '', imagen: '', identificador: 1});
+const [pokemonData, setPokemonData] = useState({nombre: '', detipo: '', imagen: '', identificador: 1, evoluciones: []});
 
 useEffect(() => {
 getPokemon(pokemonData.identificador);
@@ -22,61 +21,44 @@ async function getPokemon (name) {
     nombre: data.name, 
     detipo: data.types.map(type => type.type.name),
     imagen: data.sprites.other["official-artwork"].front_default, 
-    identificador: data.id})
+    identificador: data.id,
+    evoluciones: await getEvolutions(data.id)
+  })
 };
-
+console.log(pokemonData.evoluciones)
 // ////////////////////////////////////////////////// funcion para obtener cadena evolutiva ///////////////////////////////////////////////////
 
-const [pokemonEvolution, setpokemonEvolution] = useState({evolucion1: '', evolucion2:"", evolucion3:"", evoImagen: "", identificador: 1});
+const [pokemonEvolution, setpokemonEvolution] = useState({identificador: 1});
 
 useEffect (()=>{
   getEvolutions(pokemonEvolution.identificador)
 }, [])
 
 async function getEvolutions(id) {
-  const res = await fetch(`https://pokeapi.co/api/v2/evolution-chain/${id}/`)
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`)
   const evolutionData = await res.json()
+  const evolutionUrl = evolutionData.evolution_chain.url
+  const chainRes = await fetch(evolutionUrl)
+  const chainData = await chainRes.json()
 
-  setpokemonEvolution({
-    evolucion1: evolutionData.chain.species.name,
-    evolucion2: evolutionData.chain.evolves_to[0].species.name,
-    evolucion3: evolutionData.chain.evolves_to[0].evolves_to[0].species.name,
-    evoImagen: evolutionData.chain.species.name
-  })
-};
-
-/*
-async function evoluciones(name) {
-  const res = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name}/`)
-  const speciesData = await res.json()
-
-  const evolutionChain = await fetch(speciesData.evolution_chain.url)
-  const evolutionData = await evolutionChain.json()
-  const evolution = []
-
-  function recorrerEvoluciones(chain) {
-    evolution.push(chain.species.name)
-
-    if (chain.evolves_to.length > 0 ) {
-      recorrerEvoluciones(chain.evolves_to[0])
-    }
+  const arrayEvoluciones = []
+  let pokemonTrigger = chainData.chain
+  while (pokemonTrigger) {
+    arrayEvoluciones.push(pokemonTrigger.species.name)
+    pokemonTrigger = pokemonTrigger.evolves_to[0]
   }
-
-  recorrerEvoluciones(evolutionData.chain)
-  return evolution;
-}
-*/
-//evoluciones('rattata').then(evolucionesPokemon => console.log(evolucionesPokemon))
-
-// creamos la logica para los botones de prev y next
-
+  //console.log(arrayEvoluciones)
+  //const pokemonBase = chainData.chain.species.name
+  // const evolucion1 = chainData.chain.evolves_to[0].species.name
+  // const evolucion2 = chainData.chain.evolves_to[0].evolves_to[0].species.name
+  setpokemonEvolution(arrayEvoluciones)
+};
 function obtenerPokemonAnterior () {
   getPokemon(pokemonData.identificador - 1)
 }
 function obtenerPokemonSiguiente () {
   getPokemon(pokemonData.identificador + 1)
 }
-
 
 
 const pokemonApp = []
@@ -93,8 +75,9 @@ const pokemonApp = []
       <div className='contenedor-principal'> 
         
 
-        <Pokemon nombre= {pokemonData.nombre} identificador={pokemonData.identificador} imagen={pokemonData.imagen} tipo={pokemonData.detipo} detipo={pokemonData.detipo} />
-        
+        <Pokemon nombre= {pokemonData.nombre} identificador={pokemonData.identificador} imagen={pokemonData.imagen} tipo={pokemonData.detipo} detipo={pokemonData.detipo} cadenaEvolutiva={pokemonData.evoluciones}
+        />
+
         <div className="contenedor-botones">
           <Boton 
             texto="Prev"
@@ -109,9 +92,7 @@ const pokemonApp = []
             />
         </div>
 
-        <Evoluciones 
-          nombre1= {pokemonEvolution.evolucion1} nombre2={pokemonEvolution.evolucion2} nombre3={pokemonEvolution.evolucion3}
-        />
+        
       </div> 
     </div>
   );
