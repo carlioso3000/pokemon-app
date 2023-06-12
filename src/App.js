@@ -52,14 +52,23 @@ async function getEvolutions(id) {
   return arrayEvoluciones;
 };
 
-// obtener la imagen de cada evolucion si mi array pokemonData.evoluciones incluye name, entonces dame la imagen de ese name, la evaluamos con:
+
+
+// FUNCION PARA OBTENER LA RUTA DE LA IMAGEN DE LAS EVOLUCIONES?????
 function imgEvo (name) {
-  
-  if (pokemonData.evoluciones.includes(name)) {
-    return pokemonData.imagen
+  const arrayImg = []
+  if (name == pokemonData.nombre) {
+    arrayImg.push(pokemonData.imagen)
+  } else if (pokemonEvolution.includes(name)) {
+    arrayImg.push(pokemonData.imagen)
   }
+  console.log(arrayImg)
+  return arrayImg;
 }
-console.log(pokemonData.evoluciones)
+
+
+
+
 
 
 function obtenerPokemonAnterior () {
@@ -84,7 +93,7 @@ const pokemonApp = []
       <div className='contenedor-principal'> 
         
 
-        <Pokemon nombre= {pokemonData.nombre} identificador={pokemonData.identificador} imagen={pokemonData.imagen} tipo={pokemonData.detipo} detipo={pokemonData.detipo} cadenaEvolutiva={pokemonData.evoluciones} imagenDeEvolucion={imgEvo(pokemonData.nombre)}
+        <Pokemon nombre= {pokemonData.nombre} identificador={pokemonData.identificador} imagen={pokemonData.imagen} tipo={pokemonData.detipo} detipo={pokemonData.detipo}  imagenDeEvolucion={imgEvo(pokemonData.nombre)}
         />
   
         <div className="contenedor-botones">
@@ -100,8 +109,6 @@ const pokemonApp = []
             siguientePokemon={obtenerPokemonSiguiente} 
             />
         </div>
-
-        
       </div> 
     </div>
   );
