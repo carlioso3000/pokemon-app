@@ -6,6 +6,7 @@ import PokemonLogo from './imagenes/pokemon-logo.png';
 import React, {useState, useEffect} from 'react';
 
 
+
 function App() {
   
 const [pokemonData, setPokemonData] = useState({nombre: '', detipo: '', imagen: '', identificador: 1, evoluciones: []});
@@ -25,8 +26,8 @@ async function getPokemon (name) {
     evoluciones: await getEvolutions(data.id)
   })
 };
-//console.log(pokemonData.evoluciones)
-// ////////////////////////////////////////////////// funcion para obtener cadena evolutiva ///////////////////////////////////////////////////
+
+// /// funcion para obtener cadena evolutiva ///
 
 const [pokemonEvolution, setpokemonEvolution] = useState({identificador: 1});
 
@@ -47,13 +48,18 @@ async function getEvolutions(id) {
     arrayEvoluciones.push(pokemonTrigger.species.name)
     pokemonTrigger = pokemonTrigger.evolves_to[0]
   }
-  //console.log(arrayEvoluciones)
-  //const pokemonBase = chainData.chain.species.name
-  // const evolucion1 = chainData.chain.evolves_to[0].species.name
-  // const evolucion2 = chainData.chain.evolves_to[0].evolves_to[0].species.name
   setpokemonEvolution(arrayEvoluciones)
   return arrayEvoluciones;
 };
+
+// obtener la imagen de cada evolucion si mi array pokemonData.evoluciones incluye name, entonces dame la imagen de ese name, la evaluamos con:
+function imgEvo (name) {
+  
+  if (pokemonData.evoluciones.includes(name)) {
+    return pokemonData.imagen
+  }
+}
+console.log(pokemonData.evoluciones)
 
 
 function obtenerPokemonAnterior () {
@@ -78,9 +84,9 @@ const pokemonApp = []
       <div className='contenedor-principal'> 
         
 
-        <Pokemon nombre= {pokemonData.nombre} identificador={pokemonData.identificador} imagen={pokemonData.imagen} tipo={pokemonData.detipo} detipo={pokemonData.detipo} cadenaEvolutiva={pokemonData.evoluciones}
+        <Pokemon nombre= {pokemonData.nombre} identificador={pokemonData.identificador} imagen={pokemonData.imagen} tipo={pokemonData.detipo} detipo={pokemonData.detipo} cadenaEvolutiva={pokemonData.evoluciones} imagenDeEvolucion={imgEvo(pokemonData.nombre)}
         />
-
+  
         <div className="contenedor-botones">
           <Boton 
             texto="Prev"

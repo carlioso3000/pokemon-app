@@ -1,9 +1,19 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../hojas-de-estilo/pokemon.css';
+import getPokemon from '../App'
 
-function Pokemon({ 
-  nombre, imagen, tipo, identificador, detipo, cadenaEvolutiva}) {
+
+function Pokemon({ nombre, imagen, tipo, identificador, detipo, cadenaEvolutiva, imagenDeEvolucion}) {
+
+  /*function jaja(name) {
+    if (name == nombre) {
+      return imagen
+    } else {return "aaa"}
+  }*/
+//OJO
+
+
   return (
     <div className="card-container">
       <div className="card">
@@ -25,14 +35,17 @@ function Pokemon({
             <li className={`list-group-item ${tipo}`}><span className='tipo'>{tipo}</span></li>
           </ul>
         )}
-        <ul className='list-group'>
-          <li>{cadenaEvolutiva[0]}</li>
-          <li>{cadenaEvolutiva[1]}</li>
-          <li>{cadenaEvolutiva[2]}</li>
-        </ul>
+  {/* creo que solo me hace falta mapear algo pero aun no se que es */}
+          
+          <img width="90px" src={imagenDeEvolucion}/>
+          <img width="90px" src={imagenDeEvolucion}/>
+          <img width="90px" src={imagenDeEvolucion}/>
+        
+    
+      
+      
       </div>
     </div>
   )
 }
-
 export default Pokemon;

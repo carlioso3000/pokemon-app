@@ -53,13 +53,10 @@ background-color: green;
 li {
     width: 100%;
     text-align: center;
+    color: white;
 }
 
-/*ELIMINAR*/
-.list-group {
-    color: white
-}
-/*ELIMINAR*/
+
 
 /* lista de tipos de pokemon  para su background-color*/
 
