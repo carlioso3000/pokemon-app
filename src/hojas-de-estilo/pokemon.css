@@ -55,6 +55,12 @@ li {
     text-align: center;
 }
 
+/*ELIMINAR*/
+.list-group {
+    color: white
+}
+/*ELIMINAR*/
+
 /* lista de tipos de pokemon  para su background-color*/
 
 .bug {

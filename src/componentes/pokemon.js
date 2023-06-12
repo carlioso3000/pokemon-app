@@ -25,8 +25,10 @@ function Pokemon({
             <li className={`list-group-item ${tipo}`}><span className='tipo'>{tipo}</span></li>
           </ul>
         )}
-        <ul>
-          <li>{cadenaEvolutiva}</li>
+        <ul className='list-group'>
+          <li>{cadenaEvolutiva[0]}</li>
+          <li>{cadenaEvolutiva[1]}</li>
+          <li>{cadenaEvolutiva[2]}</li>
         </ul>
       </div>
     </div>

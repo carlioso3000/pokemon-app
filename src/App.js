@@ -25,7 +25,7 @@ async function getPokemon (name) {
     evoluciones: await getEvolutions(data.id)
   })
 };
-console.log(pokemonData.evoluciones)
+//console.log(pokemonData.evoluciones)
 // ////////////////////////////////////////////////// funcion para obtener cadena evolutiva ///////////////////////////////////////////////////
 
 const [pokemonEvolution, setpokemonEvolution] = useState({identificador: 1});
@@ -52,7 +52,10 @@ async function getEvolutions(id) {
   // const evolucion1 = chainData.chain.evolves_to[0].species.name
   // const evolucion2 = chainData.chain.evolves_to[0].evolves_to[0].species.name
   setpokemonEvolution(arrayEvoluciones)
+  return arrayEvoluciones;
 };
+
+
 function obtenerPokemonAnterior () {
   getPokemon(pokemonData.identificador - 1)
 }
