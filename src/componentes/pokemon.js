@@ -1,15 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../hojas-de-estilo/pokemon.css';
-import getPokemon from '../App'
 
 
-function Pokemon({ nombre, imagen, tipo, identificador, detipo, imagenDeEvolucion}) {
+function Pokemon({ nombre, imagen, tipo, identificador, detipo, evoluciones}) {
+
 
   return (
     <div className="card-container">
       <div className="card">
-          <img className="card-img-top" src={imagen} alt={nombre} width="250" height="250" />
+          <img className="card-img-top" src={imagen} alt={nombre} width="350" height="350" />
         
         <div className="card-body">
           <h5 className="card-title">{nombre} <span className="pokemon-id">#{identificador}</span></h5>
@@ -31,11 +31,33 @@ function Pokemon({ nombre, imagen, tipo, identificador, detipo, imagenDeEvolucio
           
           
 
-          <img width="90px" src={imagenDeEvolucion}/>
-          <img width="90px" src={imagenDeEvolucion}/>
-          <img width="90px" src={imagenDeEvolucion}/>
+        {evoluciones.map((evolution) => (
+          <img key={evolution.name} width="90px" src={evolution.img} />
+        ))}
+
+          
+
+  {/* {cadenaEvolutiva.length === 3? (
+  <ul className="list-group list-group-horizontal">
+    <li>{cadenaEvolutiva[0]}</li>
+    <li>{cadenaEvolutiva[1]}</li>
+    <li>{cadenaEvolutiva[2]}</li>
+  </ul>
+) : (
+  cadenaEvolutiva.length === 2 ? (
+    <ul className="list-group list-group-horizontal">
+      <li>{cadenaEvolutiva[0]}</li>
+      <li>{cadenaEvolutiva[1]}</li>
+    </ul>
+  ) : (
+    <ul className="list-group list-group-horizontal">
+      <li>{cadenaEvolutiva[0]}</li>
+    </ul>
+  )
+)} */}
+          
         
-    
+        
       
       
       </div>

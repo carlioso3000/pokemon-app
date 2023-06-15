@@ -11,65 +11,43 @@ function App() {
   
 const [pokemonData, setPokemonData] = useState({nombre: '', detipo: '', imagen: '', identificador: 1, evoluciones: []});
 
-useEffect(() => {
-getPokemon(pokemonData.identificador);
-}, [])
+useEffect(()=> {
+getPokemon(pokemonData.identificador)
+}, [pokemonData.identificador]);
 
-async function getPokemon (name) {
-  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`)
-  const data = await response.json()
-  setPokemonData({
-    nombre: data.name, 
-    detipo: data.types.map(type => type.type.name),
-    imagen: data.sprites.other["official-artwork"].front_default, 
-    identificador: data.id,
-    evoluciones: await getEvolutions(data.id)
-  })
-};
+async function getPokemon(id) {
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
+  const pokemon = await response.json()
 
-// /// funcion para obtener cadena evolutiva ///
-
-const [pokemonEvolution, setpokemonEvolution] = useState({identificador: 1});
-
-useEffect (()=>{
-  getEvolutions(pokemonEvolution.identificador)
-}, [])
-
-async function getEvolutions(id) {
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`)
-  const evolutionData = await res.json()
-  const evolutionUrl = evolutionData.evolution_chain.url
-  const chainRes = await fetch(evolutionUrl)
-  const chainData = await chainRes.json()
+  const speciesData = await res.json()
+  const evolutionUrl = speciesData.evolution_chain.url
+  const evolutionRes = await fetch(evolutionUrl)
+  const evolutionData = await evolutionRes.json()
 
-  const arrayEvoluciones = []
-  let pokemonTrigger = chainData.chain
-  while (pokemonTrigger) {
-    arrayEvoluciones.push(pokemonTrigger.species.name)
-    pokemonTrigger = pokemonTrigger.evolves_to[0]
+  let evol;
+  if (evolutionData.chain.evolves_to.length > 0) {
+    evol = evolutionData.chain;
   }
-  setpokemonEvolution(arrayEvoluciones)
-  return arrayEvoluciones;
-};
+  const evolutions = [];
+  while (evol) {
+    let id = evol.species.url.split("/")[6];
+    
+    evolutions.push({
+      name:evol.species.name,
+      img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
+    });
 
-
-
-// FUNCION PARA OBTENER LA RUTA DE LA IMAGEN DE LAS EVOLUCIONES?????
-function imgEvo (name) {
-  const arrayImg = []
-  if (name == pokemonData.nombre) {
-    arrayImg.push(pokemonData.imagen)
-  } else if (pokemonEvolution.includes(name)) {
-    arrayImg.push(pokemonData.imagen)
+    evol = evol.evolves_to.length > 0 ? evol.evolves_to[0] : undefined;
   }
-  console.log(arrayImg)
-  return arrayImg;
+  setPokemonData({
+    nombre: pokemon.name,
+    detipo: pokemon.types.map((type) => type.type.name),
+    imagen: pokemon.sprites.other["official-artwork"].front_default,
+    identificador: pokemon.id,
+    evoluciones: evolutions,
+  });
 }
-
-
-
-
-
 
 function obtenerPokemonAnterior () {
   getPokemon(pokemonData.identificador - 1)
@@ -79,37 +57,46 @@ function obtenerPokemonSiguiente () {
 }
 
 
+
 const pokemonApp = []
   return (
     <div className="App">
-      <div className="pokemon-logo-container">
-          <img
-            className="pokemon-logo"
-            src={PokemonLogo}
-            alt="logo de pokemon"
-          />
-          <Buscador getPokemon={getPokemon} />
+      
+        <div className="pokemon-logo-container">
+            <img
+              className="pokemon-logo"
+              src={PokemonLogo}
+              alt="logo de pokemon"
+            />
         </div>
-      <div className='contenedor-principal'> 
+
+        
+        <Buscador getPokemon={getPokemon} />
         
 
-        <Pokemon nombre= {pokemonData.nombre} identificador={pokemonData.identificador} imagen={pokemonData.imagen} tipo={pokemonData.detipo} detipo={pokemonData.detipo}  imagenDeEvolucion={imgEvo(pokemonData.nombre)}
+        <Pokemon 
+        nombre= {pokemonData.nombre} 
+        identificador={pokemonData.identificador} 
+        imagen={pokemonData.imagen} 
+        tipo={pokemonData.detipo} 
+        detipo={pokemonData.detipo}
+        evoluciones={pokemonData.evoluciones}
         />
   
-        <div className="contenedor-botones">
-          <Boton 
-            texto="Prev"
-            BotonDeSiguiente={false}
-            siguientePokemon={obtenerPokemonAnterior} 
-            />
+        
+          <div className='contenedor-botones'>
+            <Boton 
+              texto="Prev"
+              BotonDeSiguiente={false}
+              siguientePokemon={obtenerPokemonAnterior} 
+              />
 
-          <Boton 
-            texto="Next"
-            BotonDeSiguiente={true}
-            siguientePokemon={obtenerPokemonSiguiente} 
-            />
-        </div>
-      </div> 
+            <Boton 
+              texto="Next"
+              BotonDeSiguiente={true}
+              siguientePokemon={obtenerPokemonSiguiente} 
+              />
+          </div>
     </div>
   );
 }

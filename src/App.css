@@ -4,13 +4,20 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%;
+}
 
 .App {
+  background-color: #E5e5e5;
+  width: 100%;
+  height: 100vh;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  flex-wrap: no-wrap;
   align-items: center;
+  align-content: center;
   justify-content: center;
-  padding-top: 20px;
   font-family: Lato, sans-serif;
 }
 
@@ -19,19 +26,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px;
+  align-content: center;
 }
 
 .pokemon-logo {
-  width: 15%;
+  height: 50px;
 }
 
-.contenedor-principal {
-  width: 100%;
-  height: 100vh;
-  background-color: rgb(9, 22, 22);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
+.buscador {
+  display: inline;
 }

@@ -3,6 +3,7 @@ import '../hojas-de-estilo/buscador.css'
 
 
 function Buscador(props) {
+
   const [pokemonName, setPokemonName] = useState("")
 
   function handleSubmit(event) {
@@ -18,12 +19,14 @@ function Buscador(props) {
 
   return (
 
-      <form onSubmit={handleSubmit}>
-        <label>
-          <input type="text" name="pokemon" value={pokemonName} onChange={handleChange} />
-        </label>
-        <input type="submit" value="Buscar" />
-      </form>
+      <div className="buscador-container input-group mb-3">
+        <form onSubmit={handleSubmit}>
+          <label>
+            <input className="form-control input-text" type="text" name="pokemon" placeholder="Nombre o Id" value={pokemonName} onChange={handleChange} />
+          </label>
+          <input className="input submit btn btn-primary" type="submit" value="Buscar" />
+        </form>
+      </div>
     
   )
 }
