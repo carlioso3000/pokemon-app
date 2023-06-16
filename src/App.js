@@ -35,7 +35,8 @@ async function getPokemon(id) {
     
     evolutions.push({
       name:evol.species.name,
-      img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
+      img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
+      id: id
     });
 
     evol = evol.evolves_to.length > 0 ? evol.evolves_to[0] : undefined;
@@ -46,6 +47,7 @@ async function getPokemon(id) {
     imagen: pokemon.sprites.other["official-artwork"].front_default,
     identificador: pokemon.id,
     evoluciones: evolutions,
+    
   });
 }
 
@@ -56,6 +58,11 @@ function obtenerPokemonSiguiente () {
   getPokemon(pokemonData.identificador + 1)
 }
 
+function onClickEvolution (idPokemon){
+  getPokemon(
+    pokemonData.identificador = idPokemon
+  )
+}
 
 
 const pokemonApp = []
@@ -81,6 +88,7 @@ const pokemonApp = []
         tipo={pokemonData.detipo} 
         detipo={pokemonData.detipo}
         evoluciones={pokemonData.evoluciones}
+        mostrar={onClickEvolution}
         />
   
         

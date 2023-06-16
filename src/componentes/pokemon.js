@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../hojas-de-estilo/pokemon.css';
+import getPokemon from '../App'
 
 
-function Pokemon({ nombre, imagen, tipo, identificador, detipo, evoluciones}) {
+function Pokemon({ nombre, imagen, tipo, identificador, detipo, evoluciones, mostrar}) {
 
+  
 
   return (
     <div className="card-container">
@@ -29,37 +31,12 @@ function Pokemon({ nombre, imagen, tipo, identificador, detipo, evoluciones}) {
         )}
   {/* creo que solo me hace falta mapear algo pero aun no se que es */}
           
-          
-
+  
         {evoluciones.map((evolution) => (
-          <img key={evolution.name} width="90px" src={evolution.img} />
+              <img onClick = {() => mostrar(evolution.id)} key={evolution.name} width="90px" src={evolution.img} />
+            
         ))}
-
-          
-
-  {/* {cadenaEvolutiva.length === 3? (
-  <ul className="list-group list-group-horizontal">
-    <li>{cadenaEvolutiva[0]}</li>
-    <li>{cadenaEvolutiva[1]}</li>
-    <li>{cadenaEvolutiva[2]}</li>
-  </ul>
-) : (
-  cadenaEvolutiva.length === 2 ? (
-    <ul className="list-group list-group-horizontal">
-      <li>{cadenaEvolutiva[0]}</li>
-      <li>{cadenaEvolutiva[1]}</li>
-    </ul>
-  ) : (
-    <ul className="list-group list-group-horizontal">
-      <li>{cadenaEvolutiva[0]}</li>
-    </ul>
-  )
-)} */}
-          
         
-        
-      
-      
       </div>
     </div>
   )

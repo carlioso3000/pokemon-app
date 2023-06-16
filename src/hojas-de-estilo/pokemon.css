@@ -60,6 +60,11 @@ li {
     font-size: 1.2rem;
 }
 
+.imagen-evoluciones {
+    min-height: 90px;
+    display: flex;
+}
+
 
 /* lista de tipos de pokemon  para su background-color*/
 
